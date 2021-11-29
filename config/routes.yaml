@@ -2,7 +2,7 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-ruta_saluda:
-    path: /hola
-    controller: App\Controller\SaludoController::saluda
-    methods: [ "GET", "HEAD"]
+## ruta_saluda:
+##     path: /hola
+##     controller: App\Controller\SaludoController::saluda
+##     methods: [ "GET", "HEAD"]
