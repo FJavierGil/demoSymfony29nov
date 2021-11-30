@@ -70,6 +70,7 @@
     "require-dev": {
         "symfony/debug-bundle": "5.3.*",
         "symfony/maker-bundle": "^1.36",
+        "symfony/phpunit-bridge": "^6.0",
         "symfony/stopwatch": "5.3.*",
         "symfony/web-profiler-bundle": "5.3.*"
     }
