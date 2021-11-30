@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=ReferenciaLibroRepository::class)
  * @ORM\Table(name="referencias")
  */
-class ReferenciaLibro
+class ReferenciaLibro implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -56,5 +56,21 @@ class ReferenciaLibro
         $this->libro = $libro;
 
         return $this;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'url' => $this->getUrl(),
+            'id_libro' => $this->getLibro()->getId(),
+        ];
     }
 }
