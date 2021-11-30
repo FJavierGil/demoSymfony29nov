@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route(
- *     path="/libros",
- *     name="miw_libros_"
+ *     path="/api/v1/libros",
+ *     name="api_libros_"
  * )
  */
-class LibroController extends AbstractController
+class ApiLibroController extends AbstractController
 {
     private EntityManager $entityManager;
 
@@ -27,8 +27,8 @@ class LibroController extends AbstractController
 
     /**
      * @Route(
-     *     path="/list",
-     *     name="list",
+     *     path="/",
+     *     name="cget",
      *     methods={ "GET" }
      *     )
      *
@@ -63,6 +63,36 @@ class LibroController extends AbstractController
         return ($libro)
             ? new JsonResponse($libro)
             : $this->errorResponse(Response::HTTP_NOT_FOUND);   // 404
+    }
+
+
+    /**
+     * @Route(
+     *     path="/{id}",
+     *     methods={ "DELETE" },
+     *     name="delete"
+     * )
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function borrarLibro(int $id): JsonResponse
+    {
+        $libro = $this->entityManager
+            ->getRepository(Libro::class)
+            ->find($id);
+
+        if (null === $libro) {
+            return $this->errorResponse(Response::HTTP_NOT_FOUND);
+        }
+
+        $this->entityManager->remove($libro);
+        $this->entityManager->flush();
+
+        return new JsonResponse(
+            null,
+            Response::HTTP_NO_CONTENT
+        );
     }
 
     protected function errorResponse(int $statusCode): JsonResponse
