@@ -4,6 +4,7 @@ namespace App\Tests\Entity;
 
 use App\Entity\ReferenciaLibro;
 use App\Entity\Libro;
+use Faker\Generator as Faker;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,6 +13,13 @@ use PHPUnit\Framework\TestCase;
 class LibroTest extends TestCase
 {
     protected Libro $libro;
+
+    protected static Faker $faker;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$faker = \Faker\Factory::create('es');
+    }
 
     protected function setUp(): void
     {
@@ -47,7 +55,7 @@ class LibroTest extends TestCase
      */
     public function testGetSetTitulo()
     {
-        $titulo = '´Ññ!"·$%/&/()=?¿áÁûÙ';
+        $titulo = self::$faker->words(5, true);
         $this->libro->setTitulo($titulo);
         self::assertSame(
             $titulo,
@@ -61,7 +69,7 @@ class LibroTest extends TestCase
      */
     public function testGetSetAutor()
     {
-        $autor = 'ñÑ´{}`**+[]!"·$%&/()=?¿¡';
+        $autor = self::$faker->name();
         $this->libro->setAutor($autor);
         self::assertSame(
             $autor,
@@ -75,7 +83,7 @@ class LibroTest extends TestCase
      */
     public function testGetSetNumPaginas()
     {
-        $num = random_int(1, 1000);
+        $num = self::$faker->numberBetween(1, 1000);
         $this->libro->setNumPaginas($num);
         self::assertSame(
             $num,
@@ -88,13 +96,12 @@ class LibroTest extends TestCase
      */
     public function test__toString()
     {
-        $titulo = '|@#~€¬€abcñÑáöÓçÇ*';
+        $titulo = self::$faker->words(5, true);
         $this->libro->setTitulo($titulo);
         self::assertSame(
             $titulo,
             $this->libro->__toString()
         );
-
     }
 
     /**
@@ -102,6 +109,7 @@ class LibroTest extends TestCase
      */
     public function testJsonSerialize()
     {
+        $this->libro->setTitulo(self::$faker->word());
         self::assertJson(json_encode($this->libro));
     }
 
@@ -112,6 +120,7 @@ class LibroTest extends TestCase
     public function testAddRemoveReferenciaLibro(): Libro
     {
         $referenciaLibro = new ReferenciaLibro();
+        $referenciaLibro->setUrl(self::$faker->url());
         // add
         $this->libro->addReferenciaLibro($referenciaLibro);
         self::assertContains(

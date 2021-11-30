@@ -68,6 +68,7 @@
         }
     },
     "require-dev": {
+        "fakerphp/faker": "^1.16",
         "symfony/debug-bundle": "5.3.*",
         "symfony/maker-bundle": "^1.36",
         "symfony/phpunit-bridge": "^6.0",
