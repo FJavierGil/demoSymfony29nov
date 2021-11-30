@@ -16,18 +16,18 @@ class ReferenciaLibro implements \JsonSerializable
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private int $id = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $url;
+    private string $url = '';
 
     /**
      * @ORM\ManyToOne(targetEntity=Libro::class, inversedBy="referenciaLibros")
      * @ORM\JoinColumn(nullable=false)
      */
-    private Libro $libro;
+    private ?Libro $libro;
 
     public function getId(): ?int
     {
@@ -46,12 +46,12 @@ class ReferenciaLibro implements \JsonSerializable
         return $this;
     }
 
-    public function getLibro(): Libro
+    public function getLibro(): ?Libro
     {
         return $this->libro;
     }
 
-    public function setLibro(Libro $libro): self
+    public function setLibro(?Libro $libro): self
     {
         $this->libro = $libro;
 

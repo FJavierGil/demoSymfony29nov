@@ -19,22 +19,22 @@ class Libro implements \JsonSerializable
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private int $id = 0;
 
     /**
      * @ORM\Column(name="titulo", type="string", length=60, nullable=false)
      */
-    private string $titulo;
+    private string $titulo = '';
 
     /**
      * @ORM\Column(name="autor", type="string", length=40, nullable=true)
      */
-    private ?string $autor;
+    private ?string $autor = null;
 
     /**
      * @ORM\Column(name="num_paginas", type="integer", nullable=true)
      */
-    private ?int $numPaginas;
+    private ?int $numPaginas = null;
 
     /**
      * @ORM\OneToMany(targetEntity=ReferenciaLibro::class, mappedBy="libro", orphanRemoval=true)
