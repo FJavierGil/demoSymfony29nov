@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,6 +35,16 @@ class Libro implements \JsonSerializable
      * @ORM\Column(name="num_paginas", type="integer", nullable=true)
      */
     private ?int $numPaginas;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ReferenciaLibro::class, mappedBy="libro", orphanRemoval=true)
+     */
+    private Collection $referenciaLibros;
+
+    public function __construct()
+    {
+        $this->referenciaLibros = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -96,6 +108,11 @@ class Libro implements \JsonSerializable
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->getTitulo();
+    }
+
     /**
      * Specify data which should be serialized to JSON
      * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
@@ -110,6 +127,37 @@ class Libro implements \JsonSerializable
             'titulo' => $this->getTitulo(),
             'autor' => $this->getAutor(),
             'numPaginas' => $this->getNumPaginas(),
+            'referencias' => $this->getReferenciaLibros()->toArray(),
         ];
+    }
+
+    /**
+     * @return Collection|ReferenciaLibro[]
+     */
+    public function getReferenciaLibros(): Collection
+    {
+        return $this->referenciaLibros;
+    }
+
+    public function addReferenciaLibro(ReferenciaLibro $referenciaLibro): self
+    {
+        if (!$this->referenciaLibros->contains($referenciaLibro)) {
+            $this->referenciaLibros[] = $referenciaLibro;
+            $referenciaLibro->setLibro($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReferenciaLibro(ReferenciaLibro $referenciaLibro): self
+    {
+        if ($this->referenciaLibros->removeElement($referenciaLibro)) {
+            // set the owning side to null (unless already changed)
+            if ($referenciaLibro->getLibro() === $this) {
+                $referenciaLibro->setLibro(null);
+            }
+        }
+
+        return $this;
     }
 }

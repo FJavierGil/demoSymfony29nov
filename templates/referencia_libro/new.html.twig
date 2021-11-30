@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ReferenciaLibro{% endblock %}
+
+{% block body %}
+    <h1>Create new ReferenciaLibro</h1>
+
+    {{ include('referencia_libro/_form.html.twig') }}
+
+    <a href="{{ path('referencia_libro_index') }}">back to list</a>
+{% endblock %}
