@@ -120,6 +120,9 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "symfony/browser-kit": {
+        "version": "v5.3.4"
+    },
     "symfony/cache": {
         "version": "v5.3.12"
     },
@@ -161,6 +164,9 @@
     },
     "symfony/doctrine-bridge": {
         "version": "v5.3.11"
+    },
+    "symfony/dom-crawler": {
+        "version": "v5.3.7"
     },
     "symfony/dotenv": {
         "version": "v5.3.10"
