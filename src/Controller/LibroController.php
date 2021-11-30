@@ -49,14 +49,24 @@ class LibroController extends AbstractController
      *     name="get"
      * )
      *
-     * @param Libro $libro
+     * @param Libro|null $libro
      * @return JsonResponse
      */
-    public function mostrarLibro(Libro $libro): JsonResponse
+    public function mostrarLibro(?Libro $libro): JsonResponse
     {
         // $libro = $this->entityManager
         //     ->getRepository(Libro::class)
         //     ->find($id);
+        if (null === $libro) {
+            return new JsonResponse(
+                [
+                    'code' => 404,
+                    'message' => 'Not Found',
+                ],
+                404
+            );
+        }
+
         return new JsonResponse($libro);
     }
 }
