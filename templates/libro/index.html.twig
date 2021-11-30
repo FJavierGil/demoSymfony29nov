@@ -3,33 +3,33 @@
 {% block title %}Libro index{% endblock %}
 
 {% block body %}
-    <h1>Libro index</h1>
+    <h1>Listado de Libros</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Titulo</th>
+                <th>Título</th>
                 <th>Autor</th>
-                <th>NumPaginas</th>
-                <th>actions</th>
+                <th>Num. Páginas</th>
+                <th>acciones</th>
             </tr>
         </thead>
         <tbody>
         {% for libro in libros %}
             <tr>
-                <td>{{ libro.id }}</td>
-                <td>{{ libro.titulo }}</td>
+                <td>{{ libro.getId() }}</td>
+                <td>{{ libro.getTitulo }}</td>
                 <td>{{ libro.autor }}</td>
                 <td>{{ libro.numPaginas }}</td>
                 <td>
-                    <a href="{{ path('libro_show', {'id': libro.id}) }}">show</a>
-                    <a href="{{ path('libro_edit', {'id': libro.id}) }}">edit</a>
+                    <a href="{{ path('libro_show', {'id': libro.id}) }}">mostrar</a>
+                    <a href="{{ path('libro_edit', {'id': libro.id}) }}">editar</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">No hay libros</td>
             </tr>
         {% endfor %}
         </tbody>

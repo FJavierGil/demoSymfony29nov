@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/libro')]
+#[Route(path: '/libro')]
 class LibroController extends AbstractController
 {
     #[Route('/', name: 'libro_index', methods: ['GET'])]
@@ -20,9 +20,12 @@ class LibroController extends AbstractController
             ->getRepository(Libro::class)
             ->findAll();
 
-        return $this->render('libro/index.html.twig', [
-            'libros' => $libros,
-        ]);
+        return $this->render(
+            'libro/index.html.twig',
+            [
+                'libros' => $libros,
+            ]
+        );
     }
 
     #[Route('/new', name: 'libro_new', methods: ['GET', 'POST'])]
