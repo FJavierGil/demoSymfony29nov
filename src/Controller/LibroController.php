@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -39,7 +40,9 @@ class LibroController extends AbstractController
             ->getRepository(Libro::class)
             ->findAll();
 
-        return new JsonResponse($libros);
+        return ($libros)
+            ? new JsonResponse($libros)
+            : $this->errorResponse(404);;
     }
 
     /**
@@ -57,16 +60,18 @@ class LibroController extends AbstractController
         // $libro = $this->entityManager
         //     ->getRepository(Libro::class)
         //     ->find($id);
-        if (null === $libro) {
-            return new JsonResponse(
-                [
-                    'code' => 404,
-                    'message' => 'Not Found',
-                ],
-                404
-            );
-        }
+        return ($libro)
+            ? new JsonResponse($libro)
+            : $this->errorResponse(Response::HTTP_NOT_FOUND);   // 404
+    }
 
-        return new JsonResponse($libro);
+    protected function errorResponse(int $statusCode): JsonResponse
+    {
+        $data = [
+            'code' => $statusCode,
+            'message' => Response::$statusTexts[$statusCode]
+        ];
+
+        return new JsonResponse($data, $statusCode);
     }
 }
